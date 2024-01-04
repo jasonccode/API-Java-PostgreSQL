@@ -1,10 +1,12 @@
 package crudjava.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping(path = "api/v1/products")
@@ -22,8 +24,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public void registrarProducto(@RequestBody Product product) {
-        this.productService.newProduct(product);
+    public ResponseEntity<Object> registrarProducto(@RequestBody Product product) {
+        return this.productService.newProduct(product);
     }
 
 }
