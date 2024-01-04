@@ -25,7 +25,7 @@ public class ProductService {
     public ResponseEntity<Object> newProduct(Product product) {
         Optional<Product> res = productRepository.findProductByName(product.getName());
         HashMap<String, Object> datos = new HashMap<>();
-        if (res.isPresent()) {
+        if (res.isPresent() && product.getId() == null) {
             datos.put("error", true);
             datos.put("message", "Ya existe un producto con ese nombre");
 
@@ -33,9 +33,13 @@ public class ProductService {
                     datos,
                     HttpStatus.CONFLICT);
         }
+        datos.put("message", "Se guardo con éxito");
+        if (product.getId() != null) {
+            datos.put("message", "Se actualizó con éxito");
+
+        }
         productRepository.save(product);
         datos.put("data", product);
-        datos.put("message", "Se guardo con éxito");
 
         return new ResponseEntity<>(
                 datos,
